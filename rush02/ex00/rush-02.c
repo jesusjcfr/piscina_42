@@ -1,0 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rush-02.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jfermin <jfermin@student.42barcelo>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/07 12:39:07 by jfermin           #+#    #+#             */
+/*   Updated: 2024/04/07 21:49:04 by jfermin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+char	**ft_split(char *str, char *charset);
+long	ft_atoi(char *str);
+void	ft_putstr(char *str);
+int		write_number(char **dict, int nb);
+int		write_ten_aux(char **dict, int nb);
+int		write_ten(char **dict, int nb);
+int		write_hundred(char **dict, int nb);
+int		write_thousand(char **dict, int nb);
+int		write_million(char **dict, unsigned int nb);
+
+int	write_dict(char **dict, unsigned int nb)
+{
+	if (nb <= 20)
+		write_number(dict, nb);
+	else if (nb < 100)
+		write_ten(dict, nb);
+	else if (nb < 1000)
+		write_hundred(dict, nb);
+	else if (nb < 1000000)
+		write_thousand(dict, nb);
+	else
+		write_million(dict, nb);
+	write(1, "\n", 1);
+	return (0);
+}
+
+int	rush(unsigned int nb, char *route)
+{
+	char	str[2000000];
+	char	**dict;
+	int		i;
+	int		fd;
+
+	fd = open(route, O_RDONLY);
+	if (fd == -1)
+		write(2, "Dict Error\n", 11);
+	return (1);
+	read(fd, str, 199999);
+	close(fd);
+	dict = ft_split(str, "\n");
+	if (write_dict(dict, nb) == 1)
+		write(2, "Dict Error\n", 11);
+	return (1);
+	i = 0;
+	while (dict[i])
+	{
+		free(dict[i]);
+		i++;
+	}
+	free(dict);
+	return (0);
+}
